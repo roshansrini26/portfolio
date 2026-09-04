@@ -1,17 +1,122 @@
 ---
+import Base from "../layouts/Base.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import AccuracyFigure from "../components/AccuracyFigure.astro";
+import WorkEntry from "../components/WorkEntry.astro";
+import BuildCard from "../components/BuildCard.astro";
 
+import { site } from "../data/site";
+import { work } from "../data/work";
+import { builds, skills } from "../data/builds";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <section class="hero">
+    <Eyebrow tag="REC_00" label={site.location} />
+    <h1>{site.name}</h1>
+    <p class="role">
+      Machine learning that has to hold up outside the notebook — on a scanner, a
+      sensor stream, or a car mid-lap.
+    </p>
+    <p class="lede">
+      MSc Data Science candidate at TU Hamburg, currently splitting time between
+      ML research and e-gnition, the university's Formula Student team.
+    </p>
+    <p class="facts">
+      <span>MSc Data Science — TU Hamburg, since Oct 2025</span>
+      <span>Developer — e-gnition Formula Student</span>
+      <span>AWS Certified Cloud Practitioner</span>
+    </p>
+
+    <AccuracyFigure />
+  </section>
+
+  <section class="about">
+    <Eyebrow tag="ABOUT" />
+    <p>
+      <strong>
+        I like problems where the model has to earn its keep outside the
+        notebook.
+      </strong>
+       That's meant classifying MRIs with a hybrid quantum-classical pipeline,
+      streaming live sensor data through Kafka for a real-time tracking system,
+      and — most recently — building ML models for a pharma research consortium
+      at Fraunhofer, none of which share a domain but all of which share the same
+      underlying toolkit.
+    </p>
+    <p>
+      I hold an AWS Cloud Practitioner certification and spend the rest of my
+      time on e-gnition, TU Hamburg's Formula Student team, where the data is a
+      lot faster and a lot louder.
+    </p>
+  </section>
+
+  <section id="work">
+    <Eyebrow tag="REC_01" label="Work" />
+    <h2 class="section-title">Where the models have shipped</h2>
+    {work.map((entry) => <WorkEntry entry={entry} />)}
+  </section>
+
+  <section id="builds">
+    <Eyebrow tag="REC_02" label="Builds" />
+    <h2 class="section-title" style="margin-bottom: 18px;">
+      Things built end to end
+    </h2>
+    <div class="grid">
+      {
+        builds.map((build, i) => (
+          <BuildCard build={build} idx={String(i + 1).padStart(2, "0")} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="skills">
+    <Eyebrow tag="REC_03" label="Skills" />
+    <h2 class="section-title" style="margin-bottom: 22px;">The toolbox</h2>
+    <div class="skillset">
+      {
+        skills.map((row) => (
+          <div class="skillrow">
+            <div class="cat">{row.cat}</div>
+            <div class="chips">
+              {row.items.map((item) => (
+                <span class="chip">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="notes">
+    <Eyebrow tag="REC_04" label="Notes" />
+    <h2 class="section-title">Writing, occasionally</h2>
+    <div class="notes-placeholder">
+      <p>
+        Longer write-ups on the ML and engineering work above — first few posts
+        in progress.
+      </p>
+      <span>COMING SOON</span>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <Eyebrow tag="REC_05" label="Contact" />
+    <h2>
+      Building something in machine learning, data, or a car that needs faster
+      telemetry?
+    </h2>
+    <p class="lede">
+      Based in Hamburg, open to working student roles in data science, ML, and
+      analytics.
+    </p>
+    <div class="contact-links">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={site.github} target="_blank" rel="noopener noreferrer">
+        github.com/roshansrini26
+      </a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,60 @@
+---
+interface Props {
+  label?: string;
+  value?: number;
+  caption?: string;
+}
+
+const {
+  label = "FIG. 1 — CLASSIFICATION ACCURACY",
+  value = 96,
+  caption = "Hybrid quantum-classical classifier · brain tumour MRI · bachelor's thesis · PennyLane + PyTorch",
+} = Astro.props;
+
+const x0 = 20;
+const x1 = 600;
+const fillWidth = ((x1 - x0) * value) / 100;
+const markerX = x0 + fillWidth;
+const ticks = [0, 25, 50, 75, 100];
+---
+
+<figure class="figure">
+  <div class="figure-head">
+    <span>{label}</span>
+    <span class="stat">{value}%</span>
+  </div>
+
+  <svg viewBox="0 0 620 150" role="img" aria-labelledby="figTitle figDesc">
+    <title id="figTitle">Accuracy readout</title>
+    <desc id="figDesc">{caption}</desc>
+
+    <line x1={x0} y1="70" x2={x1} y2="70" stroke="var(--line)" stroke-width="10"></line>
+    <rect x={x0} y="65" width={fillWidth} height="10" fill="var(--text)"></rect>
+
+    <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--text-faint)">
+      {
+        ticks.map((t) => {
+          const tx = x0 + ((x1 - x0) * t) / 100;
+          return (
+            <>
+              <line x1={tx} y1="82" x2={tx} y2="90" stroke="var(--text-faint)" />
+              <text x={tx} y="104" text-anchor="middle">{t}</text>
+            </>
+          );
+        })
+      }
+    </g>
+
+    <line x1={markerX} y1="46" x2={markerX} y2="90" stroke="var(--bright)" stroke-width="1.5"></line>
+    <text
+      x={markerX}
+      y="34"
+      text-anchor="middle"
+      font-family="IBM Plex Mono, monospace"
+      font-size="12"
+      fill="var(--bright)">{value}%</text
+    >
+  </svg>
+
+  <figcaption class="figure-cap">{caption}</figcaption>
+</figure>

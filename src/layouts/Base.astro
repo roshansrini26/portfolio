@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+import { site, railLinks, navLinks } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+  </head>
+
+  <body>
+    <aside class="rail" aria-label="Section index">
+      {
+        railLinks.map((l) => (
+          <a href={l.href}>
+            <span class="num">{l.num}</span>
+            {l.label}
+          </a>
+        ))
+      }
+    </aside>
+
+    <header class="top" id="top">
+      <span class="brand">
+        <strong>{site.name}</strong> — {site.brandSuffix}
+      </span>
+      <nav class="top-links">
+        {navLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <slot />
+
+        <footer>
+          <span>© {new Date().getFullYear()} {site.name}</span>
+          <span><em>Built with Astro.</em></span>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>

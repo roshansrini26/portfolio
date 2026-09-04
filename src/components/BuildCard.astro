@@ -1,0 +1,16 @@
+---
+import type { Build } from "../data/builds";
+
+interface Props {
+  build: Build;
+  idx: string;
+}
+const { build, idx } = Astro.props;
+---
+
+<div class:list={["card", { wide: build.wide }]}>
+  <span class="idx">{idx}</span>
+  <h3>{build.title}</h3>
+  <p>{build.body}</p>
+  <div class="stack">{build.stack.join(" · ").toUpperCase()}</div>
+</div>
