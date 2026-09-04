@@ -1,9 +1,8 @@
 ---
 interface Props {
-  tag: string;
-  label?: string;
+  label: string;
 }
-const { tag, label } = Astro.props;
+const { label } = Astro.props;
 ---
 
-<p class="eyebrow"><span class="tag">{tag}</span>{label}</p>
+<p class="eyebrow">{label}</p>

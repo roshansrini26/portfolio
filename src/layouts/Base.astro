@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { site, railLinks } from "../data/site";
+import ProfileModal from "../components/ProfileModal.astro";
 
 interface Props {
   title?: string;
@@ -28,23 +29,35 @@ const { title = site.title, description = site.description } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500&display=swap"
     />
   </head>
 
   <body>
     <aside class="rail" aria-label="Section index">
-      {
-        railLinks.map((l) => (
-          <a href={l.href}>
-            <span class="num">{l.num}</span>
-            {l.label}
-          </a>
-        ))
-      }
+      <nav>
+        {
+          railLinks.map((l, i) => (
+            <a href={l.href} data-target={l.href} style={`--i:${i}`}>
+              <span class="dash" aria-hidden="true" />
+              <span class="label">{l.label}</span>
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="rail-foot">
+        <span class="loc">
+          <span class="dot" aria-hidden="true" />
+          <span id="rail-clock">{site.shortLocation}</span>
+        </span>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
     </aside>
 
-    <main id="top">
+    <ProfileModal />
+
+    <main>
       <div class="wrap">
         <slot />
 
@@ -54,5 +67,110 @@ const { title = site.title, description = site.description } = Astro.props;
         </footer>
       </div>
     </main>
+    <script is:inline>
+      (function () {
+        var openBtn = document.getElementById("profile-open");
+        var overlay = document.getElementById("profile-overlay");
+        var closeBtn = document.getElementById("profile-close");
+        if (!openBtn || !overlay) return;
+
+        function open() {
+          overlay.hidden = false;
+          requestAnimationFrame(function () {
+            overlay.classList.add("open");
+          });
+          if (closeBtn) closeBtn.focus();
+        }
+        function close() {
+          overlay.classList.remove("open");
+          openBtn.focus();
+          setTimeout(function () {
+            overlay.hidden = true;
+          }, 320);
+        }
+
+        var hint = document.getElementById("profile-hint");
+        var SEEN = "profile-panel-seen";
+
+        try {
+          openBtn.classList.add("pulse");
+        } catch (err) {}
+
+        
+        openBtn.addEventListener("click", open);
+        if (closeBtn) closeBtn.addEventListener("click", close);
+        overlay.addEventListener("click", function (e) {
+          if (e.target === overlay) close();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !overlay.hidden) close();
+        });
+      })();
+    </script>
+
+    <script is:inline define:vars={{ tz: site.timeZone, place: site.shortLocation }}>
+      (function () {
+        var el = document.getElementById("rail-clock");
+        if (!el) return;
+        function tick() {
+          var t = new Date().toLocaleTimeString("en-GB", {
+            timeZone: tz,
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          el.textContent = place + ", " + t;
+        }
+        tick();
+        setInterval(tick, 30000);
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        var links = Array.prototype.slice.call(
+          document.querySelectorAll(".rail a[data-target]")
+        );
+        if (!links.length || !("IntersectionObserver" in window)) return;
+
+        var map = {};
+        links.forEach(function (a) {
+          var id = a.getAttribute("data-target").slice(1);
+          var el = document.getElementById(id);
+          if (el) map[id] = a;
+        });
+
+        var visible = {};
+
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              visible[e.target.id] = e.isIntersecting
+                ? e.intersectionRatio
+                : 0;
+            });
+
+            var best = null;
+            var bestRatio = 0;
+            Object.keys(visible).forEach(function (id) {
+              if (visible[id] > bestRatio) {
+                bestRatio = visible[id];
+                best = id;
+              }
+            });
+
+            links.forEach(function (a) {
+              a.classList.remove("active");
+            });
+            if (best && map[best]) map[best].classList.add("active");
+          },
+          { threshold: [0, 0.15, 0.4, 0.75], rootMargin: "-20% 0px -50% 0px" }
+        );
+
+        Object.keys(map).forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) io.observe(el);
+        });
+      })();
+    </script>
   </body>
 </html>

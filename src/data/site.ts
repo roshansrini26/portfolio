@@ -5,19 +5,26 @@ export const site = {
   description:
     "MSc Data Science candidate at TU Hamburg. Machine learning that holds up outside the notebook.",
   url: "https://roshansrini.vercel.app",
-  location: "Hamburg, DE · 53.55°N 9.99°E",
+  location: "Hamburg, Germany",
   email: "roshansrini26@gmail.com",
   github: "https://github.com/roshansrini26",
   linkedin: "", // add your LinkedIn URL here
+
+  // Square photo in public/. Leave empty to show initials instead.
+  avatar: "/avatar.jpeg",
+  initials: "RS",
+  cv: "/cv.pdf", // put your CV at public/cv.pdf
+  shortLocation: "Hamburg",
+  timeZone: "Europe/Berlin",
 };
 
 export const railLinks = [
-  { num: "00", label: "TOP", href: "#top" },
-  { num: "01", label: "WORK", href: "#work" },
-  { num: "02", label: "BUILD", href: "#builds" },
-  { num: "03", label: "SKILL", href: "#skills" },
-  { num: "04", label: "NOTES", href: "#notes" },
-  { num: "05", label: "TALK", href: "#contact" },
+  { label: "Top", href: "#top" },
+  { label: "Work", href: "#work" },
+  { label: "Builds", href: "#builds" },
+  { label: "Skills", href: "#skills" },
+  { label: "Notes", href: "#notes" },
+  { label: "Contact", href: "#contact" },
 ];
 
 // Right column of the hero block — edit freely.
@@ -29,9 +36,14 @@ export const interests: string[] = [
   "Staying active",
 ];
 
-export const quickLinks: { label: string; note: string; href: string }[] = [
-  { label: "GitHub", note: "code", href: "https://github.com/roshansrini26" },
-  { label: "LinkedIn", note: "profile", href: "#" },
-  { label: "Email", note: "say hello", href: "mailto:roshansrini26@gmail.com" },
-  { label: "CV", note: "pdf", href: "#" },
+
+
+// Photos for the profile panel collage. Put them in public/photos/.
+// Leave the array empty and the panel shows just the cards.
+export const photos: string[] = [
+  "/photos/1.png",
+  "/photos/2.jpg",
+  "/photos/3.jpg",
+  // "/photos/4.jpeg",
+  // "/photos/5.jpeg",
 ];

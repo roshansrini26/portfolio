@@ -4,16 +4,34 @@ import Eyebrow from "../components/Eyebrow.astro";
 import WorkEntry from "../components/WorkEntry.astro";
 import BuildCard from "../components/BuildCard.astro";
 
-import { site, interests, quickLinks } from "../data/site";
+import { site, interests } from "../data/site";
 import { work } from "../data/work";
 import { builds, skills } from "../data/builds";
 ---
 
 <Base>
-  <section class="hero">
-    <Eyebrow tag="REC_00" label={site.location} />
-    <h1>{site.name}</h1>
-    <p class="role" id="role-line">{site.role}</p>
+  <section class="hero" id="top">
+    <Eyebrow label={site.location} />
+
+    <div class="hero-top">
+      <div class="hero-name">
+        <h1>{site.name}</h1>
+        <p class="role" id="role-line">{site.role}</p>
+      </div>
+
+      <div class="hero-avatar">
+        <button class="avatar-tile" id="profile-open" aria-label={`More about ${site.name}`}>
+          {
+            site.avatar ? (
+              <img src={site.avatar} alt="" width="98" height="98" />
+            ) : (
+              site.initials
+            )
+          }
+        </button>
+        <span class="avatar-hint" id="profile-hint" aria-hidden="true">Click me</span>
+      </div>
+    </div>
 
     <script is:inline>
       // Runs at parse time so the full string never flashes before typing.
@@ -68,8 +86,8 @@ import { builds, skills } from "../data/builds";
           <strong>
             I like problems where the model has to earn its keep outside the
             notebook.
-          </strong>
-           That's meant classifying MRIs with a hybrid quantum-classical
+          </strong>{" "}
+          That's meant classifying MRIs with a hybrid quantum-classical
           pipeline, streaming live sensor data through Kafka for a real-time
           tracking system, and — most recently — building ML models for a pharma
           research consortium at Fraunhofer.
@@ -94,46 +112,28 @@ import { builds, skills } from "../data/builds";
             {interests.map((item) => <li>{item}</li>)}
           </ul>
         </div>
-
-        <div class="side-block">
-          <p class="col-label">Quick links</p>
-          <div class="quick-links">
-            {
-              quickLinks.map((l) => (
-                <a href={l.href} target="_blank" rel="noopener noreferrer">
-                  {l.label}
-                  <span>{l.note}</span>
-                </a>
-              ))
-            }
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
   <section id="work">
-    <Eyebrow tag="REC_01" label="Work" />
+    <Eyebrow label="Work" />
     <h2 class="section-title">Where the models have shipped</h2>
     {work.map((entry) => <WorkEntry entry={entry} />)}
   </section>
 
   <section id="builds">
-    <Eyebrow tag="REC_02" label="Builds" />
+    <Eyebrow label="Builds" />
     <h2 class="section-title" style="margin-bottom: 18px;">
       Things built end to end
     </h2>
     <div class="grid">
-      {
-        builds.map((build, i) => (
-          <BuildCard build={build} idx={String(i + 1).padStart(2, "0")} />
-        ))
-      }
+      {builds.map((build) => <BuildCard build={build} />)}
     </div>
   </section>
 
   <section id="skills">
-    <Eyebrow tag="REC_03" label="Skills" />
+    <Eyebrow label="Skills" />
     <h2 class="section-title" style="margin-bottom: 22px;">The toolbox</h2>
     <div class="skillset">
       {
@@ -152,19 +152,19 @@ import { builds, skills } from "../data/builds";
   </section>
 
   <section id="notes">
-    <Eyebrow tag="REC_04" label="Notes" />
+    <Eyebrow label="Notes" />
     <h2 class="section-title">Writing, occasionally</h2>
     <div class="notes-placeholder">
       <p>
         Longer write-ups on the ML and engineering work above — first few posts
         in progress.
       </p>
-      <span>COMING SOON</span>
+      <span>In progress</span>
     </div>
   </section>
 
   <section id="contact" class="contact">
-    <Eyebrow tag="REC_05" label="Contact" />
+    <Eyebrow label="Contact" />
     <h2>
       Building something in machine learning, data, or a car that needs faster
       telemetry?
