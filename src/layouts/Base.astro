@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { site, railLinks, navLinks } from "../data/site";
+import { site, railLinks } from "../data/site";
 
 interface Props {
   title?: string;
@@ -44,16 +44,7 @@ const { title = site.title, description = site.description } = Astro.props;
       }
     </aside>
 
-    <header class="top" id="top">
-      <span class="brand">
-        <strong>{site.name}</strong> — {site.brandSuffix}
-      </span>
-      <nav class="top-links">
-        {navLinks.map((l) => <a href={l.href}>{l.label}</a>)}
-      </nav>
-    </header>
-
-    <main>
+    <main id="top">
       <div class="wrap">
         <slot />
 
