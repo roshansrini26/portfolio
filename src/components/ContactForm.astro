@@ -1,0 +1,127 @@
+---
+import { site } from "../data/site";
+---
+
+<form class="letter" id="contact-form" novalidate>
+  <input type="hidden" name="access_key" value={site.formKey} />
+  <input type="hidden" name="subject" value="New message from your portfolio" />
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+  <p class="letter-line">
+    Hi Roshan, I'm
+    <span class="blank" data-value="">
+      <label class="sr-only" for="f-name">Your name</label>
+      <input id="f-name" name="name" type="text" placeholder="your name" required autocomplete="name" />
+    </span>
+    from
+    <span class="blank" data-value="">
+      <label class="sr-only" for="f-org">Your company or university</label>
+      <input id="f-org" name="organisation" type="text" placeholder="where you work" autocomplete="organization" />
+    </span>
+    and you can reach me at
+    <span class="blank" data-value="">
+      <label class="sr-only" for="f-email">Your email address</label>
+      <input id="f-email" name="email" type="email" placeholder="your@email.com" required autocomplete="email" />
+    </span>.
+  </p>
+
+  <div class="letter-message">
+    <label class="letter-label" for="f-msg">I'd like to talk about</label>
+    <textarea id="f-msg" name="message" rows="2" placeholder="a role, a project, an idea…" required></textarea>
+  </div>
+
+  <div class="letter-actions">
+    <button type="submit" class="letter-send">
+      Send
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14" />
+        <path d="m13 6 6 6-6 6" />
+      </svg>
+    </button>
+    <p class="letter-status" id="form-status" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById("contact-form");
+    if (!form) return;
+
+    var status = document.getElementById("form-status");
+    var textarea = form.querySelector("textarea");
+
+    // inputs grow with their content
+    form.querySelectorAll(".blank input").forEach(function (input) {
+      var wrap = input.parentElement;
+      function sync() {
+        wrap.dataset.value = input.value || input.placeholder;
+      }
+      input.addEventListener("input", sync);
+      sync();
+    });
+
+    if (textarea) {
+      function grow() {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+      textarea.addEventListener("input", grow);
+      grow();
+    }
+
+    function say(msg, kind) {
+      if (!status) return;
+      status.textContent = msg;
+      status.className = "letter-status " + (kind || "");
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var key = form.querySelector('[name="access_key"]').value;
+      if (!key) {
+        say("Form isn't connected yet — email me directly for now.", "err");
+        return;
+      }
+      if (!form.checkValidity()) {
+        say("Please fill in your name, email and message.", "err");
+        return;
+      }
+
+      var btn = form.querySelector(".letter-send");
+      btn.disabled = true;
+      say("Sending…");
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (data.success) {
+            form.reset();
+            form.querySelectorAll(".blank").forEach(function (w) {
+              var i = w.querySelector("input");
+              w.dataset.value = i ? i.placeholder : "";
+            });
+            if (textarea) textarea.style.height = "auto";
+            say("Sent. I'll get back to you.", "ok");
+          } else {
+            say("Something went wrong — email me directly instead.", "err");
+          }
+        })
+        .catch(function () {
+          say("Something went wrong — email me directly instead.", "err");
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+  })();
+</script>

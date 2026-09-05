@@ -72,7 +72,7 @@ const { title = site.title, description = site.description } = Astro.props;
       <div class="rail-foot">
         <span class="loc">
           <span class="dot" aria-hidden="true" />
-          <span id="rail-clock">{site.shortLocation}</span>
+          <span>{site.shortLocation}</span>
         </span>
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </div>
@@ -161,9 +161,9 @@ const { title = site.title, description = site.description } = Astro.props;
       })();
     </script>
 
-    <script is:inline define:vars={{ tz: site.timeZone, place: site.shortLocation }}>
+    <script is:inline define:vars={{ tz: site.timeZone, place: site.location }}>
       (function () {
-        var el = document.getElementById("rail-clock");
+        var el = document.getElementById("panel-clock");
         if (!el) return;
         function tick() {
           var t = new Date().toLocaleTimeString("en-GB", {
@@ -171,7 +171,7 @@ const { title = site.title, description = site.description } = Astro.props;
             hour: "2-digit",
             minute: "2-digit",
           });
-          el.textContent = place + ", " + t;
+          el.textContent = place + " · " + t;
         }
         tick();
         setInterval(tick, 30000);

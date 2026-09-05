@@ -9,11 +9,18 @@ export const site = {
   email: "roshansrini26@gmail.com",
   github: "https://github.com/roshansrini26",
   linkedin: "", // add your LinkedIn URL here
+  scholar: "", // Google Scholar profile URL
+  huggingface: "", // Hugging Face profile URL
+  availability: "Open to working student roles",
 
   // Square photo in public/. Leave empty to show initials instead.
   avatar: "/avatar.jpeg",
   initials: "RS",
   cv: "/cv.pdf", // put your CV at public/cv.pdf
+
+  // Free key from web3forms.com — paste it here and the form starts working.
+  formKey: "",
+
   shortLocation: "Hamburg",
   timeZone: "Europe/Berlin",
 };
@@ -23,7 +30,6 @@ export const railLinks = [
   { label: "Work", href: "#work" },
   { label: "Builds", href: "#builds" },
   { label: "Skills", href: "#skills" },
-  { label: "Notes", href: "#notes" },
   { label: "Contact", href: "#contact" },
 ];
 

@@ -2,11 +2,11 @@
 import Base from "../layouts/Base.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Timeline from "../components/Timeline.astro";
-import BuildCard from "../components/BuildCard.astro";
+import Builds from "../components/Builds.astro";
 import Skills from "../components/Skills.astro";
+import ContactForm from "../components/ContactForm.astro";
 
 import { site, interests } from "../data/site";
-import { builds } from "../data/builds";
 ---
 
 <Base>
@@ -29,7 +29,14 @@ import { builds } from "../data/builds";
             )
           }
         </button>
-        <span class="avatar-hint" id="profile-hint" aria-hidden="true">Click me</span>
+        <span class="avatar-hint" id="profile-hint" aria-hidden="true">
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 15C10 9 8 4 5 1.5" />
+            <path d="M5 1.5 8.6 3" />
+            <path d="M5 1.5 4.2 5.2" />
+          </svg>
+          Click me
+        </span>
       </div>
     </div>
 
@@ -126,9 +133,7 @@ import { builds } from "../data/builds";
     <h2 class="section-title" style="margin-bottom: 18px;">
       Things built end to end
     </h2>
-    <div class="grid">
-      {builds.map((build) => <BuildCard build={build} />)}
-    </div>
+    <Builds />
   </section>
 
   <section id="skills">
@@ -137,28 +142,16 @@ import { builds } from "../data/builds";
     <Skills />
   </section>
 
-  <section id="notes">
-    <Eyebrow label="Notes" />
-    <h2 class="section-title">Writing, occasionally</h2>
-    <div class="notes-placeholder">
-      <p>
-        Longer write-ups on the ML and engineering work above — first few posts
-        in progress.
-      </p>
-      <span>In progress</span>
-    </div>
-  </section>
-
   <section id="contact" class="contact">
     <Eyebrow label="Contact" />
-    <h2>
-      Building something in machine learning, data, or a car that needs faster
-      telemetry?
-    </h2>
+    <h2 class="section-title">Say hello</h2>
     <p class="lede">
       Based in Hamburg, open to working student roles in data science, ML, and
       analytics.
     </p>
+
+    <ContactForm />
+
     <div class="contact-links">
       <a href={`mailto:${site.email}`}>{site.email}</a>
       <a href={site.github} target="_blank" rel="noopener noreferrer">

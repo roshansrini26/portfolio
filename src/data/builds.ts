@@ -1,49 +1,63 @@
 export interface Build {
   title: string;
+  year: string;
   body: string;
   stack: string[];
-  repo?: string; // GitHub URL — omit if the project has no public repo
+  size?: "featured" | "wide" | "normal"; // defaults to normal
+  repo?: string; // GitHub URL — omit or leave empty if there's no public repo
   demo?: string; // live demo URL — optional
-  wide?: boolean; // spans the full grid width
 }
 
+// Newest first. Use "featured" for your two or three strongest projects —
+// they get a bigger tile and show the full description. Keep it to two or
+// three, or nothing stands out. Grid auto-fills gaps, so order is flexible.
 export const builds: Build[] = [
   {
-    title: "Quantum-Classical MRI Classifier",
-    body: "Bachelor's thesis. A hybrid pipeline pairing quantum circuits with a classical deep network to classify brain tumour MRIs, reaching ~96% accuracy.",
-    stack: ["PennyLane", "PyTorch", "Python"],
+    title: "Real-Time Radiation Tracking Pipeline",
+    year: "2026",
+    body: "TU Hamburg Big Data Lab project. Streams live sensor readings through Kafka and Flink into a FastAPI backend, plotted in real time on a React and Leaflet map, deployed on AWS EC2.",
+    stack: ["Kafka", "Flink", "FastAPI", "React", "AWS EC2"],
+    size: "featured",
     repo: "",
   },
   {
-    title: "Real-Time Radiation Tracking Pipeline",
-    body: "TU Hamburg Big Data Lab project. Streams sensor readings through Kafka and Flink to a FastAPI backend, plotted live on a React/Leaflet map, deployed on AWS EC2.",
-    stack: ["Kafka", "Flink", "FastAPI", "React", "AWS EC2"],
+    title: "Quantum-Classical MRI Classifier",
+    year: "2024",
+    body: "Bachelor's thesis. A hybrid pipeline pairing quantum circuits with a classical deep network to classify brain tumour MRIs, reaching ~96% accuracy.",
+    stack: ["PennyLane", "PyTorch", "Python"],
+    size: "featured",
     repo: "",
   },
   {
     title: "Multi-Omics Factor Analysis",
-    body: "Lab rotation project applying factor analysis to a large public cancer dataset to surface latent structure across data types — full manuscript, presentation, and post-review debrief.",
+    year: "2026",
+    body: "Factor analysis over a large public cancer dataset to surface latent structure across data types.",
     stack: ["MOFA", "Python"],
+    size: "wide",
     repo: "",
   },
   {
     title: "HCAI Web App",
-    body: "Django application built with course teammates covering active learning and model-explainability workflows.",
+    year: "2025",
+    body: "Django app covering active learning and model-explainability workflows.",
     stack: ["Django", "Python"],
     repo: "",
   },
   {
     title: "Spreadsheet Consolidation Pipeline",
-    body: "Personal project — VBA macros consolidating scattered multi-source spreadsheets into one clean workbook.",
+    year: "2024",
+    body: "VBA macros consolidating scattered multi-source spreadsheets into one clean workbook.",
     stack: ["Excel", "VBA"],
     repo: "",
   },
 
-  // --- Add new projects below. Delete a `repo` line if there's no public repo. ---
+  // --- Copy this block for each new project ---
   // {
   //   title: "",
+  //   year: "",
   //   body: "",
   //   stack: [""],
+  //   size: "normal",   // "featured" | "wide" | "normal"
   //   repo: "",
   //   demo: "",
   // },
