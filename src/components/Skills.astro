@@ -1,0 +1,141 @@
+---
+import * as si from "simple-icons";
+import { skills } from "../data/builds";
+
+// Skill name -> Simple Icons slug.
+// Anything not listed here (or removed from the icon set, like AWS and
+// Power BI) simply renders as text — the layout handles a mix fine.
+const ICON_SLUGS: Record<string, string> = {
+  Python: "python",
+  JavaScript: "javascript",
+  PyTorch: "pytorch",
+  "scikit-learn": "scikitlearn",
+  pandas: "pandas",
+  NumPy: "numpy",
+  Streamlit: "streamlit",
+  Kafka: "apachekafka",
+  Flink: "apacheflink",
+  FastAPI: "fastapi",
+  Docker: "docker",
+  Git: "git",
+  Linux: "linux",
+  React: "react",
+  Django: "django",
+  TensorFlow: "tensorflow",
+  Keras: "keras",
+  Jupyter: "jupyter",
+  Plotly: "plotly",
+  PostgreSQL: "postgresql",
+  Kubernetes: "kubernetes",
+  GitHub: "github",
+};
+
+function iconPath(name: string): string | null {
+  const slug = ICON_SLUGS[name];
+  if (!slug) return null;
+  const key = "si" + slug.charAt(0).toUpperCase() + slug.slice(1);
+  const entry = (si as Record<string, any>)[key];
+  return entry && entry.path ? entry.path : null;
+}
+
+const total = skills.reduce((n, row) => n + row.items.length, 0);
+
+// Fallback for skills with no logo: a short monogram in the serif face.
+function monogram(name: string): string {
+  const words = name.split(/[\s-]+/).filter(Boolean);
+  if (name === name.toUpperCase() && name.length <= 4) return name;
+  if (words.length > 1) {
+    return words
+      .slice(0, 2)
+      .map((w) => w.charAt(0).toUpperCase())
+      .join("");
+  }
+  return name.slice(0, 2).replace(/^./, (c) => c.toUpperCase());
+}
+
+const flat = skills.flatMap((row) =>
+  row.items.map((item) => ({
+    cat: row.cat,
+    item,
+    path: iconPath(item),
+    mono: monogram(item),
+  }))
+);
+
+function slug(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+}
+---
+
+<div class="filters" role="group" aria-label="Filter skills by domain">
+  <button class="filter-btn active" data-filter="all" aria-pressed="true">
+    All <span class="count">{total}</span>
+  </button>
+  {
+    skills.map((row) => (
+      <button class="filter-btn" data-filter={slug(row.cat)} aria-pressed="false">
+        {row.cat} <span class="count">{row.items.length}</span>
+      </button>
+    ))
+  }
+</div>
+
+<div class="skill-grid" id="skill-grid">
+  {
+    flat.map((s) => (
+      <span class="skill-chip" data-cat={slug(s.cat)}>
+        <span class="skill-mark">
+          {s.path ? (
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" aria-hidden="true">
+              <path d={s.path} />
+            </svg>
+          ) : (
+            <span class="mono-mark" aria-hidden="true">{s.mono}</span>
+          )}
+        </span>
+        <span class="skill-name">{s.item}</span>
+      </span>
+    ))
+  }
+</div>
+
+<p class="skill-empty" id="skill-empty" hidden>Nothing in that group yet.</p>
+
+<script is:inline>
+  (function () {
+    var btns = Array.prototype.slice.call(
+      document.querySelectorAll(".filter-btn")
+    );
+    var chips = Array.prototype.slice.call(
+      document.querySelectorAll(".skill-chip")
+    );
+    var empty = document.getElementById("skill-empty");
+    if (!btns.length || !chips.length) return;
+
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = b.getAttribute("data-filter");
+
+        btns.forEach(function (x) {
+          var on = x === b;
+          x.classList.toggle("active", on);
+          x.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+
+        var shown = 0;
+        chips.forEach(function (c) {
+          var match = f === "all" || c.getAttribute("data-cat") === f;
+          c.hidden = !match;
+          if (match) {
+            shown++;
+            c.classList.remove("pop");
+            void c.offsetWidth; // restart the entrance animation
+            c.classList.add("pop");
+          }
+        });
+
+        if (empty) empty.hidden = shown > 0;
+      });
+    });
+  })();
+</script>

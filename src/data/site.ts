@@ -41,9 +41,9 @@ export const interests: string[] = [
 // Photos for the profile panel collage. Put them in public/photos/.
 // Leave the array empty and the panel shows just the cards.
 export const photos: string[] = [
-  "/photos/1.png",
-  "/photos/2.jpg",
-  "/photos/3.jpg",
+  // "/photos/1.jpeg",
+  // "/photos/2.jpeg",
+  // "/photos/3.jpeg",
   // "/photos/4.jpeg",
   // "/photos/5.jpeg",
 ];

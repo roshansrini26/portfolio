@@ -1,0 +1,134 @@
+---
+import { professional, academic, clubs, type Entry } from "../data/work";
+
+function groupByYear(items: Entry[]) {
+  const groups: { year: string; items: Entry[] }[] = [];
+  for (const item of items) {
+    const last = groups[groups.length - 1];
+    if (last && last.year === item.year) {
+      last.items.push(item);
+    } else {
+      groups.push({ year: item.year, items: [item] });
+    }
+  }
+  return groups;
+}
+
+const tracks = [
+  { id: "professional", label: "Professional", groups: groupByYear(professional) },
+  { id: "academic", label: "Academic", groups: groupByYear(academic) },
+  { id: "clubs", label: "Clubs", groups: groupByYear(clubs) },
+];
+---
+
+<div class="toggle" role="tablist" aria-label="Experience track">
+  {
+    tracks.map((t, i) => (
+      <button
+        class:list={["toggle-btn", { active: i === 0 }]}
+        role="tab"
+        data-track={t.id}
+        aria-selected={i === 0 ? "true" : "false"}
+        aria-controls={`track-${t.id}`}
+      >
+        {t.label}
+      </button>
+    ))
+  }
+</div>
+
+{
+  tracks.map((t, i) => (
+    <div
+      class="track-scroll"
+      id={`track-${t.id}`}
+      role="tabpanel"
+      tabindex="0"
+      hidden={i !== 0}
+    >
+      <div class="track">
+        {t.groups.map((g) => (
+          <div class="tl-group">
+            <div class="tl-year">{g.year}</div>
+
+            <div class="tl-items">
+              {g.items.map((e) => (
+                <div class="tl-item">
+                  <span class="tl-dot" aria-hidden="true" />
+                  <h3>{e.role}</h3>
+                  <p class="tl-org">{e.org}</p>
+                  <p class="tl-text">{e.body}</p>
+                  {e.tags && e.tags.length > 0 && (
+                    <div class="tl-tags">
+                      {e.tags.map((x) => (
+                        <span>{x}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))
+}
+
+<script is:inline>
+  (function () {
+    var btns = Array.prototype.slice.call(
+      document.querySelectorAll(".toggle-btn")
+    );
+    var panels = Array.prototype.slice.call(
+      document.querySelectorAll(".track-scroll")
+    );
+    if (!btns.length || !panels.length) return;
+
+    function draw(panel) {
+      var track = panel.querySelector(".track");
+      if (!track) return;
+      track.classList.remove("drawn");
+      void track.offsetWidth; // force reflow so the animation restarts
+      track.classList.add("drawn");
+    }
+
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-track");
+        btns.forEach(function (x) {
+          var on = x === b;
+          x.classList.toggle("active", on);
+          x.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        panels.forEach(function (p) {
+          var on = p.id === "track-" + id;
+          p.hidden = !on;
+          if (on) {
+            p.scrollTop = 0;
+            draw(p);
+          }
+        });
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting && !e.target.hidden) {
+              draw(e.target);
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      panels.forEach(function (p) {
+        io.observe(p);
+      });
+    } else {
+      panels.forEach(draw);
+    }
+  })();
+</script>

@@ -1,12 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
 import Eyebrow from "../components/Eyebrow.astro";
-import WorkEntry from "../components/WorkEntry.astro";
+import Timeline from "../components/Timeline.astro";
 import BuildCard from "../components/BuildCard.astro";
+import Skills from "../components/Skills.astro";
 
 import { site, interests } from "../data/site";
-import { work } from "../data/work";
-import { builds, skills } from "../data/builds";
+import { builds } from "../data/builds";
 ---
 
 <Base>
@@ -118,8 +118,7 @@ import { builds, skills } from "../data/builds";
 
   <section id="work">
     <Eyebrow label="Work" />
-    <h2 class="section-title">Where the models have shipped</h2>
-    {work.map((entry) => <WorkEntry entry={entry} />)}
+    <Timeline />
   </section>
 
   <section id="builds">
@@ -135,20 +134,7 @@ import { builds, skills } from "../data/builds";
   <section id="skills">
     <Eyebrow label="Skills" />
     <h2 class="section-title" style="margin-bottom: 22px;">The toolbox</h2>
-    <div class="skillset">
-      {
-        skills.map((row) => (
-          <div class="skillrow">
-            <div class="cat">{row.cat}</div>
-            <div class="chips">
-              {row.items.map((item) => (
-                <span class="chip">{item}</span>
-              ))}
-            </div>
-          </div>
-        ))
-      }
-    </div>
+    <Skills />
   </section>
 
   <section id="notes">
