@@ -90,7 +90,7 @@ export const clubs: Entry[] = [
       {
         title: "Driverless Department",
         year: "2026 – 27",
-        bullets: ["Add what you're working on."],
+        bullets: ["Coming soon"],
         tags: [],
       },
       {

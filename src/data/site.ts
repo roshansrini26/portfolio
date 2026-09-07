@@ -26,6 +26,12 @@ export const site = {
 
   shortLocation: "Hamburg",
   timeZone: "Europe/Berlin",
+    building: [
+    "RAG pipelines with LangChain and LangGraph",
+    "Computer vision",
+    "Driverless automation",
+  ],
+    githubUser: "roshansrini26",
 };
 
 export const railLinks = [
@@ -36,22 +42,18 @@ export const railLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-// Right column of the hero block — edit freely.
 export const interests: string[] = [
-  ""
+  "Where LLMs and agentic systems are actually heading — what holds up in production versus what only works in a demo",
+  "Data work as the real bottleneck — most of the value comes from getting the inputs honest before any model touches them",
+  "Computer vision, particularly on medical and scientific imaging",
+  "Building software that scales — systems that stay reliable when the data volume and the number of people relying on them both grow",
 ];
 
 
 
 // Photos for the profile panel collage. Put them in public/photos/.
 // Leave the array empty and the panel shows just the cards.
-export const photos: string[] = [
-  // "/photos/1.jpeg",
-  // "/photos/2.jpeg",
-  // "/photos/3.jpeg",
-  // "/photos/4.jpeg",
-  // "/photos/5.jpeg",
-];
+export const photos: string[] = [];
 
 
 // Logos for the profile panel. Drop files in public/logos/.
