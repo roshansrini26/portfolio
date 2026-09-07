@@ -57,7 +57,38 @@ const tracks = [
                   <span class="tl-dot" aria-hidden="true" />
                   <h3>{e.role}</h3>
                   <p class="tl-org">{e.org}</p>
-                  <p class="tl-text">{e.body}</p>
+                  {e.body && <p class="tl-text">{e.body}</p>}
+                  {e.bullets && e.bullets.length > 0 && (
+                    <ul class="tl-bullets">
+                      {e.bullets.map((b) => (
+                        <li>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                                    {e.roles && e.roles.length > 0 && (
+                    <div class="tl-roles">
+                      {e.roles.map((r) => (
+                        <div class="tl-role">
+                          <span class="tl-role-year">{r.year}</span>
+                          <h4>{r.title}</h4>
+                          {r.bullets && r.bullets.length > 0 && (
+                            <ul class="tl-bullets">
+                              {r.bullets.map((b) => (
+                                <li>{b}</li>
+                              ))}
+                            </ul>
+                          )}
+                          {r.tags && r.tags.length > 0 && (
+                            <div class="tl-tags">
+                              {r.tags.map((x) => (
+                                <span>{x}</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   {e.tags && e.tags.length > 0 && (
                     <div class="tl-tags">
                       {e.tags.map((x) => (

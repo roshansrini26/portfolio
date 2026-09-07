@@ -17,6 +17,20 @@ import { site, interests } from "../data/site";
       <div class="hero-name">
         <h1>{site.name}</h1>
         <p class="role" id="role-line">{site.role}</p>
+        <p class="hero-facts">
+          {
+            site.facts.map((f, i) => (
+              <>
+                {i > 0 && (
+                  <span class="sep" aria-hidden="true">
+                    |
+                  </span>
+                )}
+                <span>{f}</span>
+              </>
+            ))
+          }
+        </p>
       </div>
 
       <div class="hero-avatar">

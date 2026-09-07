@@ -128,28 +128,8 @@ const { title = site.title, description = site.description } = Astro.props;
           }, 320);
         }
 
-        var hint = document.getElementById("profile-hint");
-        var SEEN = "profile-panel-seen";
+        openBtn.classList.add("pulse");
 
-        try {
-          if (localStorage.getItem(SEEN)) {
-            if (hint) hint.classList.add("gone");
-          } else {
-            openBtn.classList.add("pulse");
-          }
-        } catch (err) {
-          /* private mode — just show the hint */
-        }
-
-        function dismissHint() {
-          if (hint) hint.classList.add("gone");
-          openBtn.classList.remove("pulse");
-          try {
-            localStorage.setItem(SEEN, "1");
-          } catch (err) {}
-        }
-
-        openBtn.addEventListener("click", dismissHint);
         openBtn.addEventListener("click", open);
         if (closeBtn) closeBtn.addEventListener("click", close);
         overlay.addEventListener("click", function (e) {

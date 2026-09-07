@@ -1,5 +1,6 @@
 ---
 import { site, photos } from "../data/site";
+import OrgStrip from "./OrgStrip.astro";
 
 const hasPhotos = photos && photos.length > 0;
 
@@ -91,6 +92,8 @@ const links = [
           </a>
         ))
       }
+
+      <OrgStrip />
     </div>
 
     </div>

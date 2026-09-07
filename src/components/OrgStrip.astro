@@ -1,0 +1,29 @@
+---
+import { orgs } from "../data/site";
+
+const groups = [
+  { label: "Now", items: orgs.filter((o) => o.status === "current") },
+  { label: "Before", items: orgs.filter((o) => o.status === "past") },
+].filter((g) => g.items.length > 0);
+---
+
+{
+  groups.length > 0 && (
+    <div class="org-card">
+      {groups.map((g) => (
+        <div class="org-row">
+          <span class="org-label">{g.label}</span>
+          <div class="org-items">
+            {g.items.map((o) =>
+              o.logo ? (
+                <img src={o.logo} alt={o.name} title={o.name} loading="lazy" onerror="this.remove();" />
+              ) : (
+                <span class="org-text" title={o.name}>{o.name}</span>
+              )
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
