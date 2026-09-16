@@ -82,19 +82,25 @@ export const builds: Build[] = [
 ];
 
 export const skills: { cat: string; items: string[] }[] = [
-  { cat: "Programming", items: ["Python", "SQL", "JavaScript", "VBA"] },
   {
-    cat: "Machine Learning",
-    items: ["PyTorch", "scikit-learn", "XGBoost", "SHAP", "BERT", "PennyLane"],
+    cat: "Programming",
+    items: ["Python", "C++", "SQL", "JavaScript"],
   },
   {
-    cat: "Data Science",
-    items: ["pandas", "NumPy", "Statistical testing", "Streamlit", "Power BI"],
+    cat: "AI/ML Technologies",
+    items: ["PyTorch", "TensorFlow", "scikit-learn", "RAG", "Embeddings", "OpenCV", "LangChain"],
+  },
+  
+  {
+    cat: "Data Science and Engineering",
+    items: ["Pandas", "Numpy","Kafka", "Flink", "ETL pipelines", "Automation"],
   },
   {
-    cat: "Data Engineering",
-    items: ["Kafka", "Flink", "FastAPI", "Docker"],
+    cat: "Cloud & Tools",
+    items: ["AWS", "Docker", "n8n", "Git", "Linux", "FastAPI"],
   },
-  { cat: "Cloud & Tools", items: ["AWS", "Git", "Linux"] },
-  { cat: "Ways of Working", items: ["Scrum", "Agile", "Technical writing"] },
+  {
+    cat: "Agile",
+    items: ["Scrum", "Agile"],
+  },
 ];
