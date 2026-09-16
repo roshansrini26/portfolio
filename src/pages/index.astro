@@ -5,6 +5,7 @@ import Timeline from "../components/Timeline.astro";
 import Builds from "../components/Builds.astro";
 import Skills from "../components/Skills.astro";
 import ContactForm from "../components/ContactForm.astro";
+import Research from "../components/Research.astro";
 
 import { site, interests } from "../data/site";
 ---
@@ -159,6 +160,12 @@ import { site, interests } from "../data/site";
     <Eyebrow label="Skills" />
     <h2 class="section-title" style="margin-bottom: 22px;">The toolbox</h2>
     <Skills />
+  </section>
+
+    <section id="research">
+    <Eyebrow label="Research" />
+    <h2 class="section-title">Research and Publications </h2>
+    <Research />
   </section>
 
   <section id="contact" class="contact">

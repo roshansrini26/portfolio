@@ -39,6 +39,7 @@ export const railLinks = [
   { label: "Work", href: "#work" },
   { label: "Builds", href: "#builds" },
   { label: "Skills", href: "#skills" },
+    { label: "Research", href: "#research" },
   { label: "Contact", href: "#contact" },
 ];
 

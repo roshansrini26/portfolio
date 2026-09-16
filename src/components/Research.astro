@@ -1,0 +1,30 @@
+---
+import { researchItems } from "../data/research";
+---
+
+<div class="research-list">
+  {
+    researchItems.map((r) => {
+      const link = r.link && r.link.trim() ? r.link : null;
+      return (
+        <article class="research">
+          <span class="research-year">{r.year}</span>
+          <div class="research-body">
+            <h3>
+              {link ? (
+                <a href={link} target="_blank" rel="noopener noreferrer">{r.title}</a>
+              ) : (
+                r.title
+              )}
+            </h3>
+            <p class="research-text">{r.body}</p>
+            <div class="research-foot">
+              <span class="research-stack">{r.stack.join(", ")}</span>
+              {r.note && <span class="research-note">{r.note}</span>}
+            </div>
+          </div>
+        </article>
+      );
+    })
+  }
+</div>
