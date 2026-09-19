@@ -19,7 +19,7 @@ export const site = {
   // Square photo in public/. Leave empty to show initials instead.
   avatar: "/avatar.jpeg",
   initials: "RS",
-  cv: "/cv.pdf", // put your CV at public/cv.pdf
+  cv: "/Roshan_resume.pdf", // put your CV at public/cv.pdf
 
   // Free key from web3forms.com — paste it here and the form starts working.
   formKey: "b919cb8a-ac6d-4d5f-bdc4-9d2d78c04af6",
